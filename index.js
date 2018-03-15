@@ -1,54 +1,87 @@
+
+function slice(array, start, end) {
+  let length = array == null ? 0 : array.length
+  if (!length) {
+    return []
+  }
+  start = start == null ? 0 : start
+  end = end === undefined ? length : end
+
+  if (start < 0) {
+    start = -start > length ? 0 : (length + start)
+  }
+  end = end > length ? length : end
+  if (end < 0) {
+    end += length
+  }
+  length = start > end ? 0 : ((end - start) >>> 0)
+  start >>>= 0
+
+  let index = -1
+  const result = new Array(length)
+  while (++index < length) {
+    result[index] = array[index + start]
+  }
+  return result
+}
+
+function chunk(array, size) {
+  size = Math.max(size, 0)
+  const length = array == null ? 0 : array.length
+  if (!length || size < 1) {
+    return []
+  }
+  let index = 0
+  let resIndex = 0
+  const result = new Array(Math.ceil(length / size))
+
+  while (index < length) {
+    result[resIndex++] = slice(array, index, (index += size))
+  }
+  return result
+}
+
+
 class Matrix {
-  constructor(x,y) {
+  constructor(x,y, arr = []) {
     this.x = x;
     this.y = y;
-    for(let i=1; i<y+1; i++) {
-      this[i] = [];
-      for(let z=0; z<x; z++) {
-          this[i].push(0);
+    if(!arr.length) {
+      for(let i =0; i<x*y; i++) {
+        arr.push(0);
       }
     }
-  }
 
-  setMatrix(...werses) {
-    for(let i=0; i<werses.length; i++) {
-      if(werses[i].length === this.x) {
-        this[i+1] = werses[i]
-      }
-    }
-  }
-
-  addMatrix(matrix) {
-    if(matrix.x === this.x && matrix.y === this.y) {
-      for(let y =1; y<matrix.y+1; y++) {
-         for(let x=0; x<matrix.x; x++) {
-           this[y][x] = this[y][x] + matrix[y][x];
-         }
-      }
-    }
-  }
-
-  subtractMatrix(matrix) {
-    if(matrix.x === this.x && matrix.y === this.y) {
-      for(let y =1; y<matrix.y+1; y++) {
-         for(let x=0; x<matrix.x; x++) {
-           this[y][x] = this[y][x] - matrix[y][x];
-         }
-      }
-    }
-  }
-
-  multiplicationMatrix(matrix) {
-    if(matrix.x === this.y && matrix.y === this.x) {
-      let result = new Matrix(this.x, this.y);
-
-      for(let y =1; y<this.y+1; y++) {
-         for(let x=0; x<this.x; x++) {
-           this[y][x] = this[y][x] + matrix[y][x];
-         }
-      }
-    }
+    this.matrix = arr;
   }
 
 
+  getMatrix() {
+    let result = {};
+    for(let y =0; y<this.y; y++) {
+     result[y] = chunk(this.matrix,this.x)[y];
+    }
+    return result;
+  }
+
+  addMatrix(matrix){
+    if(this.x === matrix.x && this.y === matrix.y) {
+        for(let i=0; i<this.matrix.length; i++) {
+          this.matrix[i] = this.matrix[i] + matrix.matrix[i];
+        }
+    }
+  }
+
+  substractMatrix(matrix){
+    if(this.x === matrix.x && this.y === matrix.y) {
+        for(let i=0; i<this.matrix.length; i++) {
+          this.matrix[i] = this.matrix[i] - matrix.matrix[i];
+        }
+    }
+  }
 }
+
+let matrix = new Matrix(2,2,[1,1]);
+let matrix2 = new Matrix(2,2,[1,2]);
+
+matrix.addMatrix(matrix2);
