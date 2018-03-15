@@ -66,7 +66,22 @@ class Matrix {
 
   addMatrix(matrix){
     if(this.x === matrix.x && this.y === matrix.y) {
-        
+        for(let i=0; i<this.matrix.length; i++) {
+          this.matrix[i] = this.matrix[i] + matrix.matrix[i];
+        }
+    }
+  }
+
+  substractMatrix(matrix){
+    if(this.x === matrix.x && this.y === matrix.y) {
+        for(let i=0; i<this.matrix.length; i++) {
+          this.matrix[i] = this.matrix[i] - matrix.matrix[i];
+        }
     }
   }
 }
+
+let matrix = new Matrix(2,2,[1,1]);
+let matrix2 = new Matrix(2,2,[1,2]);
+
+matrix.addMatrix(matrix2);
