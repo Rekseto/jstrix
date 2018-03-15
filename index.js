@@ -37,11 +37,18 @@ class Matrix {
       }
     }
   }
+
+  multiplicationMatrix(matrix) {
+    if(matrix.x === this.y && matrix.y === this.x) {
+      let result = new Matrix(this.x, this.y);
+
+      for(let y =1; y<this.y+1; y++) {
+         for(let x=0; x<this.x; x++) {
+           this[y][x] = this[y][x] + matrix[y][x];
+         }
+      }
+    }
+  }
+
+
 }
-
-
-let matrix = new Matrix(2,2);
-matrix.setMatrix([1,1],[1,1]);
-let matrix2 = new Matrix(2,2);
-matrix2.setMatrix([1,1],[1,1]);
-matrix.addMatrix(matrix2);
