@@ -56,7 +56,7 @@ class Matrix {
   }
 
 
-  getMatrix() {
+  getVerses() {
     let result = {};
     for(let y =0; y<this.y; y++) {
      result[y] = chunk(this.matrix,this.x)[y];
@@ -64,7 +64,8 @@ class Matrix {
     return result;
   }
 
-  addMatrix(matrix){
+
+  addMatrix(matrix) {
     if(this.x === matrix.x && this.y === matrix.y) {
         for(let i=0; i<this.matrix.length; i++) {
           this.matrix[i] = this.matrix[i] + matrix.matrix[i];
@@ -72,7 +73,7 @@ class Matrix {
     }
   }
 
-  substractMatrix(matrix){
+  substractMatrix(matrix) {
     if(this.x === matrix.x && this.y === matrix.y) {
         for(let i=0; i<this.matrix.length; i++) {
           this.matrix[i] = this.matrix[i] - matrix.matrix[i];
@@ -80,8 +81,3 @@ class Matrix {
     }
   }
 }
-
-let matrix = new Matrix(2,2,[1,1]);
-let matrix2 = new Matrix(2,2,[1,2]);
-
-matrix.addMatrix(matrix2);
